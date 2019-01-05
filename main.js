@@ -51,6 +51,8 @@ function initMap() {
             '<a href="#" onclick="clear_marker(' + i + ')">マーカーを削除</a>'
             + '<br>'
             // 変更アイコンの選択リスト
+            /**************バグ修正必要箇所*************/
+            /**************現在のmarkerアイコンの取得とselectedの出力 ******************/
             + '<select id="select_icon' + i + '" onchange="changeIcon(' + i + ')">'
             + ' <option value="icon1">icon1</option>'
             + ' <option value="icon2">icon2</option>'
