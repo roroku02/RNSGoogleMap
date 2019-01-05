@@ -32,7 +32,6 @@ function initMap() {
 
     //任意の位置をクリックしてカスタムマーカーを表示
     google.maps.event.addListener(map, 'click', function (event) {
-        i++;
         my_marker[i] = new google.maps.Marker({
             position: { lat: event.latLng.lat(), lng: event.latLng.lng() },
             map: map,
@@ -57,6 +56,7 @@ function initMap() {
             + ' <option value="icon2">icon2</option>'
             + '</select>'
         );
+        i++;
     });
 }
 
