@@ -47,7 +47,16 @@ function initMap() {
         });
 
         //カスタムマーカーのメッセージ欄表示（マーカーをクリックで展開）
-        attachMassage(my_marker[i], '<a href="#" onclick="clear_marker(' + i + ')">マーカーを削除</a><br><a href="#" onclick="changeIcon(' + i + ')">アイコン変更</a>');
+        attachMassage(my_marker[i],
+            //マーカーの削除処理呼び出し
+            '<a href="#" onclick="clear_marker(' + i + ')">マーカーを削除</a>'
+            + '<br>'
+            // 変更アイコンの選択リスト
+            + '<select id="select_icon' + i + '" onchange="changeIcon(' + i + ')">'
+            + ' <option value="icon1">icon1</option>'
+            + ' <option value="icon2">icon2</option>'
+            + '</select>'
+        );
     });
 }
 
@@ -59,7 +68,14 @@ function clear_marker(num) {
 
 //カスタムマーカーのアイコン変更
 function changeIcon(num) {
-    var custom_icon = new google.maps.MarkerImage('./img/custom_icon2.png');
+    var selected_icon = document.getElementById('select_icon' + num).value;
+    console.log('id => select_icon' + num + '::' + selected_icon);      //ログに変更IDと選択アイコンを出力（デバッグ用）
+    if (selected_icon == 'icon1') {
+        var custom_icon = new google.maps.MarkerImage('./img/custom_icon.png');
+    } else if (selected_icon == 'icon2') {
+        custom_icon = new google.maps.MarkerImage('./img/custom_icon2.png');
+    } else alert('予期せぬエラー');
+    //marker.getIcon().urlで現在のmarkerアイコンURL取得を取得
     my_marker[num].setIcon(custom_icon);
 }
 
