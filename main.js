@@ -4,6 +4,7 @@ var marker;
 var my_marker = [];
 var infoWindow;
 var i = 0;
+var kml = "https://dl.dropboxusercontent.com/s/7g9e67ex4biguun/1.kml";
 
 function initMap() {
     //マップデフォルト位置設定（JR高槻駅）
@@ -30,6 +31,15 @@ function initMap() {
     //カスタムマーカーのデフォルトアイコン
     var default_icon = new google.maps.MarkerImage('./img/custom_icon.png');
 
+    //KMLデータの読み込み
+    var kmlLayer = new google.maps.KmlLayer({
+        url: kml,
+        suppressInfoWindows: true,
+        map: map
+    });
+    //KMLデータをマップに反映
+    kmlLayer.setMap(map);
+
     //任意の位置をクリックしてカスタムマーカーを表示
     google.maps.event.addListener(map, 'click', function (event) {
         my_marker[i] = new google.maps.Marker({
@@ -44,6 +54,32 @@ function initMap() {
         google.maps.event.addListener(my_marker[i], 'dragend', function (event) {
             //alert(event.latLng.lat() + '\n' + event.latLng.lng());
         });
+
+        //カスタムマーカーのメッセージ欄表示（マーカーをクリックで展開）
+        attachMassage(my_marker[i],
+            //マーカーの削除処理呼び出し
+            '<a href="#" onclick="clear_marker(' + i + ')">マーカーを削除</a>'
+            + '<br>'
+            // 変更アイコンの選択リスト
+            /** (TODO)現在のmarkerアイコンの取得とselectedの出力 **/
+            //+ '<select id="select_icon' + i + '" onchange="changeIcon(' + i + ')">'
+            //+ ' <option value="icon1" ' + current_icon(i, "custom_icon.png") + '>icon1</option>'
+            //+ ' <option value="icon2" ' + current_icon(i, "custom_icon2.png") + '>icon2</option>'
+            //+ '</select>'
+            + '<a href="#" onclick="changeIcon(' + i + ',\'custom_icon.png\')"><img src="./img/custom_icon.png"></a>'
+            + '<a href="#" onclick="changeIcon(' + i + ',\'custom_icon2.png\')"><img src="./img/custom_icon2.png"></a>'
+        );
+        i++;
+    });
+
+    kmlLayer.addListener('click', function (event) {
+        my_marker[i] = new google.maps.Marker({
+            position: { lat: event.latLng.lat(), lng: event.latLng.lng() },
+            map: map,
+            draggable: true,
+            icon: default_icon
+        });
+        my_marker[i].setMap(map);
 
         //カスタムマーカーのメッセージ欄表示（マーカーをクリックで展開）
         attachMassage(my_marker[i],
