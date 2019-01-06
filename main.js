@@ -54,8 +54,8 @@ function initMap() {
             /**************バグ修正必要箇所*************/
             /**************現在のmarkerアイコンの取得とselectedの出力 ******************/
             + '<select id="select_icon' + i + '" onchange="changeIcon(' + i + ')">'
-            + ' <option value="icon1">icon1</option>'
-            + ' <option value="icon2">icon2</option>'
+            + ' <option value="icon1" ' + current_icon(i, 'custom_icon.png') + '>icon1</option>'
+            + ' <option value="icon2" ' + current_icon(i, 'custom_icon2.png') + '>icon2</option>'
             + '</select>'
         );
         i++;
@@ -88,6 +88,13 @@ function attachMassage(marker, msg) {
             content: msg
         }).open(marker.getMap(), marker);
     });
+}
+
+function current_icon(num, name) {
+    var current_icon_url = my_marker[num].getIcon().url;
+    var current_icon_parser = new URL(current_icon_url);
+    var current_icon_name = current_icon_parser.pathname.split('/').pop();
+    if (current_icon_name == name) return 'selected';
 }
 
 window.onload = initMap();
