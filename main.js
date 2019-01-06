@@ -51,13 +51,13 @@ function initMap() {
             '<a href="#" onclick="clear_marker(' + i + ')">マーカーを削除</a>'
             + '<br>'
             // 変更アイコンの選択リスト
-            /**************バグ修正必要箇所*************/
-            /**************現在のmarkerアイコンの取得とselectedの出力 ******************/
+            /** (TODO)現在のmarkerアイコンの取得とselectedの出力 **/
             //+ '<select id="select_icon' + i + '" onchange="changeIcon(' + i + ')">'
             //+ ' <option value="icon1" ' + current_icon(i, "custom_icon.png") + '>icon1</option>'
             //+ ' <option value="icon2" ' + current_icon(i, "custom_icon2.png") + '>icon2</option>'
             //+ '</select>'
-            + '<a href="#" onclick="changeIcon(' + i + ',\' + custom_icon2.png + \')"><img src="./img/custom_icon2.png"></a>'
+            + '<a href="#" onclick="changeIcon(' + i + ',\'custom_icon.png\')"><img src="./img/custom_icon.png"></a>'
+            + '<a href="#" onclick="changeIcon(' + i + ',\'custom_icon2.png\')"><img src="./img/custom_icon2.png"></a>'
         );
         i++;
     });
@@ -70,7 +70,7 @@ function clear_marker(num) {
 };
 
 //カスタムマーカーのアイコン変更
-function changeIcon(num,icon) {
+function changeIcon(num, icon) {
     /*var selected_icon = document.getElementById('select_icon' + num).value;
     console.log('id => select_icon' + num + '::' + selected_icon);      //ログに変更IDと選択アイコンを出力（デバッグ用）
     if (selected_icon == 'icon1') {
@@ -80,7 +80,7 @@ function changeIcon(num,icon) {
     } else alert('予期せぬエラー');
     //marker.getIcon().urlで現在のmarkerアイコンURL取得を取得
     my_marker[num].setIcon(custom_icon);*/
-    var custom_icon = new google.mmaps.MarkerImage("./img/" + icon);
+    var custom_icon = new google.maps.MarkerImage('./img/' + icon);
     my_marker[num].setIcon(custom_icon);
 }
 
@@ -96,10 +96,10 @@ function attachMassage(marker, msg) {
 function current_icon(num, name) {
     var current_icon_path = my_marker[num].getIcon().url;
     var current_icon_name = current_icon_path.split('/').pop();
-    if (current_icon_name == name){
-        console.log( current_icon_name +' == '+ name + 'selected');
+    if (current_icon_name == name) {
+        console.log(current_icon_name + ' == ' + name + 'selected');
         return 'selected';
-    } else { return ''};
+    } else { return '' };
 }
 
 window.onload = initMap();
