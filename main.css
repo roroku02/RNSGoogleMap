@@ -9,3 +9,7 @@ html , body {
 #map {
     height: 100%;
 }
+
+#LoadKML {
+    font-size: 30px;
+}
