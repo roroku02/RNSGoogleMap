@@ -4,7 +4,12 @@ var marker;
 var my_marker = [];
 var infoWindow;
 var i = 0;
-var kml = "https://dl.dropboxusercontent.com/s/7g9e67ex4biguun/1.kml";
+var ai_kml = [         //安威川浸水域KMLデータ
+    "https://dl.dropboxusercontent.com/s/05bfeortffnmpez/flooded_area_ai_river_1.kml",
+    "https://dl.dropboxusercontent.com/s/kgqainjjs8eirkm/flooded_area_ai_river_2.kml",
+    "https://dl.dropboxusercontent.com/s/yg7fmvjgusn0eu1/flooded_area_ai_river_3.kml",
+    "https://dl.dropboxusercontent.com/s/586k8vuoqu8uvpc/flooded_area_ai_river_4.kml"
+]
 
 function initMap() {
     //マップデフォルト位置設定（JR高槻駅）
@@ -32,13 +37,16 @@ function initMap() {
     var default_icon = new google.maps.MarkerImage('./img/custom_icon.png');
 
     //KMLデータの読み込み
-    var kmlLayer = new google.maps.KmlLayer({
-        url: kml,
-        suppressInfoWindows: true,
-        map: map
-    });
-    //KMLデータをマップに反映
-    kmlLayer.setMap(map);
+    for (let kml_load_count = 0; kml_load_count < ai_kml.length; kml_load_count++) {
+        var kmlLayer = new google.maps.KmlLayer({
+            url: ai_kml[kml_load_count],
+            suppressInfoWindows: true,
+            map: map,
+            preserveViewport: true
+        });
+        //KMLデータをマップに反映
+        kmlLayer.setMap(map);
+    }
 
     //任意の位置をクリックしてカスタムマーカーを表示
     google.maps.event.addListener(map, 'click', function (event) {
