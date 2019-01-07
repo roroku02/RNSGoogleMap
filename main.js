@@ -4,7 +4,7 @@ var marker;
 var my_marker = [];
 var infoWindow;
 var i = 0;
-var KmlLayer;
+var kmlLayer;
 var ai_kml = [         //安威川浸水域KMLデータ
     "https://dl.dropboxusercontent.com/s/05bfeortffnmpez/flooded_area_ai_river_1.kml",
     "https://dl.dropboxusercontent.com/s/kgqainjjs8eirkm/flooded_area_ai_river_2.kml",
@@ -37,6 +37,17 @@ function initMap() {
 
     //カスタムマーカーのデフォルトアイコン
     var default_icon = new google.maps.MarkerImage('./img/custom_icon.png');
+
+    /*for (let kml_load_count = 0; kml_load_count < ai_kml.length; kml_load_count++) {
+        kmlLayer = new google.maps.KmlLayer({
+            url: ai_kml[kml_load_count],
+            suppressInfoWindows: true,
+            map: map,
+            preserveViewport: true
+        });
+        //KMLデータをマップに反映
+        kmlLayer.setMap(map);
+    }*/
 
     LoadKMLbutton = document.getElementById('LoadKML');
     LoadKMLbutton.index = 1;
