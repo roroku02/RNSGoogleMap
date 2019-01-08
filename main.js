@@ -4,7 +4,7 @@ var marker;
 var my_marker = [];
 var infoWindow;
 var i = 0;
-var kmlLayer;
+var kmlLayer = [];
 var ai_kml = [         //安威川浸水域KMLデータ
     "https://dl.dropboxusercontent.com/s/05bfeortffnmpez/flooded_area_ai_river_1.kml",
     "https://dl.dropboxusercontent.com/s/kgqainjjs8eirkm/flooded_area_ai_river_2.kml",
@@ -61,17 +61,15 @@ function initMap() {
     google.maps.event.addDomListener(LoadKMLButton, 'click', function () {
         //KMLデータの読み込み
         for (let kml_load_count = 0; kml_load_count < ai_kml.length; kml_load_count++) {
-            kmlLayer = new google.maps.KmlLayer({
+            kmlLayer[kml_load_count] = new google.maps.KmlLayer({
                 url: ai_kml[kml_load_count],
                 suppressInfoWindows: true,
                 map: map,
                 preserveViewport: true
             });
             //KMLデータをマップに反映
-            kmlLayer.setMap(map);
-        }
-            console.log("OK");
-            google.maps.event.addListener(kmlLayer, 'click', function (event) {
+            kmlLayer[kml_load_count].setMap(map);
+            google.maps.event.addListener(kmlLayer[kml_load_count], 'click', function (event) {
                 my_marker[i] = new google.maps.Marker({
                     position: { lat: event.latLng.lat(), lng: event.latLng.lng() },
                     map: map,
@@ -79,7 +77,7 @@ function initMap() {
                     icon: default_icon
                 });
                 my_marker[i].setMap(map);
-
+    
                 //カスタムマーカーのメッセージ欄表示（マーカーをクリックで展開）
                 attachMassage(my_marker[i],
                     //マーカーの削除処理呼び出し
@@ -96,6 +94,8 @@ function initMap() {
                 );
                 i++;
             });
+        }
+            console.log("OK");
     });
 
     //任意の位置をクリックしてカスタムマーカーを表示
