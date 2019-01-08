@@ -51,52 +51,16 @@ function initMap() {
 
     //KMLデータ読み込みボタン
     //ボタン生成
-    var LoadKMLButton = document.createElement('div');
+    LoadKMLButton = document.createElement('input');
     LoadKMLButton.id = "LoadKML";
+    LoadKMLButton.type = "button";
+    LoadKMLButton.value = "KMLデータ読み込み";
+    LoadKMLButton.setAttribute('onclick', 'LoadKML("ai")');
     const text = document.createTextNode('KMLデータ読み込み');
     LoadKMLButton.appendChild(text);
     //ボタンをマップに追加
     map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(LoadKMLButton);
-    //ボタンアクション設定
-    google.maps.event.addDomListener(LoadKMLButton, 'click', function () {
-        //KMLデータの読み込み
-        for (let kml_load_count = 0; kml_load_count < ai_kml.length; kml_load_count++) {
-            kmlLayer[kml_load_count] = new google.maps.KmlLayer({
-                url: ai_kml[kml_load_count],
-                suppressInfoWindows: true,
-                map: map,
-                preserveViewport: true
-            });
-            //KMLデータをマップに反映
-            kmlLayer[kml_load_count].setMap(map);
-            google.maps.event.addListener(kmlLayer[kml_load_count], 'click', function (event) {
-                my_marker[i] = new google.maps.Marker({
-                    position: { lat: event.latLng.lat(), lng: event.latLng.lng() },
-                    map: map,
-                    draggable: true,
-                    icon: default_icon
-                });
-                my_marker[i].setMap(map);
-    
-                //カスタムマーカーのメッセージ欄表示（マーカーをクリックで展開）
-                attachMassage(my_marker[i],
-                    //マーカーの削除処理呼び出し
-                    '<a href="#" onclick="clear_marker(' + i + ')">マーカーを削除</a>'
-                    + '<br>'
-                    // 変更アイコンの選択リスト
-                    /** (TODO)現在のmarkerアイコンの取得とselectedの出力 **/
-                    //+ '<select id="select_icon' + i + '" onchange="changeIcon(' + i + ')">'
-                    //+ ' <option value="icon1" ' + current_icon(i, "custom_icon.png") + '>icon1</option>'
-                    //+ ' <option value="icon2" ' + current_icon(i, "custom_icon2.png") + '>icon2</option>'
-                    //+ '</select>'
-                    + '<a href="#" onclick="changeIcon(' + i + ',\'custom_icon.png\')"><img src="./img/custom_icon.png"></a>'
-                    + '<a href="#" onclick="changeIcon(' + i + ',\'custom_icon2.png\')"><img src="./img/custom_icon2.png"></a>'
-                );
-                i++;
-            });
-        }
-            console.log("OK");
-    });
+
 
     //任意の位置をクリックしてカスタムマーカーを表示
     google.maps.event.addListener(map, 'click', function (event) {
@@ -170,6 +134,47 @@ function current_icon(num, name) {
         console.log(current_icon_name + ' == ' + name + 'selected');
         return 'selected';
     } else { return '' };
+}
+
+function LoadKML(kasen_name) {
+    console.log(kasen_name);
+    //KMLデータの読み込み
+    for (let kml_load_count = 0; kml_load_count < ai_kml.length; kml_load_count++) {
+        kmlLayer[kml_load_count] = new google.maps.KmlLayer({
+            url: ai_kml[kml_load_count],
+            suppressInfoWindows: true,
+            map: map,
+            preserveViewport: true
+        });
+        //KMLデータをマップに反映
+        kmlLayer[kml_load_count].setMap(map);
+        google.maps.event.addListener(kmlLayer[kml_load_count], 'click', function (event) {
+            my_marker[i] = new google.maps.Marker({
+                position: { lat: event.latLng.lat(), lng: event.latLng.lng() },
+                map: map,
+                draggable: true,
+                icon: default_icon
+            });
+            my_marker[i].setMap(map);
+
+            //カスタムマーカーのメッセージ欄表示（マーカーをクリックで展開）
+            attachMassage(my_marker[i],
+                //マーカーの削除処理呼び出し
+                '<a href="#" onclick="clear_marker(' + i + ')">マーカーを削除</a>'
+                + '<br>'
+                // 変更アイコンの選択リスト
+                /** (TODO)現在のmarkerアイコンの取得とselectedの出力 **/
+                //+ '<select id="select_icon' + i + '" onchange="changeIcon(' + i + ')">'
+                //+ ' <option value="icon1" ' + current_icon(i, "custom_icon.png") + '>icon1</option>'
+                //+ ' <option value="icon2" ' + current_icon(i, "custom_icon2.png") + '>icon2</option>'
+                //+ '</select>'
+                + '<a href="#" onclick="changeIcon(' + i + ',\'custom_icon.png\')"><img src="./img/custom_icon.png"></a>'
+                + '<a href="#" onclick="changeIcon(' + i + ',\'custom_icon2.png\')"><img src="./img/custom_icon2.png"></a>'
+            );
+            i++;
+        });
+    }
+    console.log("OK");
 }
 
 window.onload = initMap();
