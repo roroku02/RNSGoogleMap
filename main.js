@@ -49,14 +49,16 @@ function initMap() {
         kmlLayer.setMap(map);
     }*/
 
-    //LoadKMLbutton = document.getElementById('LoadKML');
-    //LoadKMLbutton.index = 1;
-    var element = document.createElement('div');
-    element.id = "LoadKML";
+    //KMLデータ読み込みボタン
+    //ボタン生成
+    var LoadKMLButton = document.createElement('div');
+    LoadKMLButton.id = "LoadKML";
     const text = document.createTextNode('KMLデータ読み込み');
-    element.appendChild(text);
-    map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(element);
-    google.maps.event.addDomListener(element, 'click', function () {
+    LoadKMLButton.appendChild(text);
+    //ボタンをマップに追加
+    map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(LoadKMLButton);
+    //ボタンアクション設定
+    google.maps.event.addDomListener(LoadKMLButton, 'click', function () {
         //KMLデータの読み込み
         for (let kml_load_count = 0; kml_load_count < ai_kml.length; kml_load_count++) {
             kmlLayer = new google.maps.KmlLayer({
@@ -68,34 +70,33 @@ function initMap() {
             //KMLデータをマップに反映
             kmlLayer.setMap(map);
         }
-    });
-    if(kmlLayer){
-        google.maps.event.addListener(KmlLayer, 'click', function (event) {
-            my_marker[i] = new google.maps.Marker({
-                position: { lat: event.latLng.lat(), lng: event.latLng.lng() },
-                map: map,
-                draggable: true,
-                icon: default_icon
-            });
-            my_marker[i].setMap(map);
+            console.log("OK");
+            google.maps.event.addListener(kmlLayer, 'click', function (event) {
+                my_marker[i] = new google.maps.Marker({
+                    position: { lat: event.latLng.lat(), lng: event.latLng.lng() },
+                    map: map,
+                    draggable: true,
+                    icon: default_icon
+                });
+                my_marker[i].setMap(map);
 
-            //カスタムマーカーのメッセージ欄表示（マーカーをクリックで展開）
-            attachMassage(my_marker[i],
-                //マーカーの削除処理呼び出し
-                '<a href="#" onclick="clear_marker(' + i + ')">マーカーを削除</a>'
-                + '<br>'
-                // 変更アイコンの選択リスト
-                /** (TODO)現在のmarkerアイコンの取得とselectedの出力 **/
-                //+ '<select id="select_icon' + i + '" onchange="changeIcon(' + i + ')">'
-                //+ ' <option value="icon1" ' + current_icon(i, "custom_icon.png") + '>icon1</option>'
-                //+ ' <option value="icon2" ' + current_icon(i, "custom_icon2.png") + '>icon2</option>'
-                //+ '</select>'
-                + '<a href="#" onclick="changeIcon(' + i + ',\'custom_icon.png\')"><img src="./img/custom_icon.png"></a>'
-                + '<a href="#" onclick="changeIcon(' + i + ',\'custom_icon2.png\')"><img src="./img/custom_icon2.png"></a>'
-            );
-            i++;
-        });
-    }
+                //カスタムマーカーのメッセージ欄表示（マーカーをクリックで展開）
+                attachMassage(my_marker[i],
+                    //マーカーの削除処理呼び出し
+                    '<a href="#" onclick="clear_marker(' + i + ')">マーカーを削除</a>'
+                    + '<br>'
+                    // 変更アイコンの選択リスト
+                    /** (TODO)現在のmarkerアイコンの取得とselectedの出力 **/
+                    //+ '<select id="select_icon' + i + '" onchange="changeIcon(' + i + ')">'
+                    //+ ' <option value="icon1" ' + current_icon(i, "custom_icon.png") + '>icon1</option>'
+                    //+ ' <option value="icon2" ' + current_icon(i, "custom_icon2.png") + '>icon2</option>'
+                    //+ '</select>'
+                    + '<a href="#" onclick="changeIcon(' + i + ',\'custom_icon.png\')"><img src="./img/custom_icon.png"></a>'
+                    + '<a href="#" onclick="changeIcon(' + i + ',\'custom_icon2.png\')"><img src="./img/custom_icon2.png"></a>'
+                );
+                i++;
+            });
+    });
 
     //任意の位置をクリックしてカスタムマーカーを表示
     google.maps.event.addListener(map, 'click', function (event) {
