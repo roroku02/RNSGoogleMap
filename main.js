@@ -49,10 +49,14 @@ function initMap() {
         kmlLayer.setMap(map);
     }*/
 
-    LoadKMLbutton = document.getElementById('LoadKML');
-    LoadKMLbutton.index = 1;
-    map.controls[google.maps.ControlPosition.TOP_CENTER].push(LoadKMLbutton);
-    google.maps.event.addDomListener(LoadKMLbutton, 'click', function () {
+    //LoadKMLbutton = document.getElementById('LoadKML');
+    //LoadKMLbutton.index = 1;
+    var element = document.createElement('div');
+    element.id = "LoadKML";
+    const text = document.createTextNode('KMLデータ読み込み');
+    element.appendChild(text);
+    map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(element);
+    google.maps.event.addDomListener(element, 'click', function () {
         //KMLデータの読み込み
         for (let kml_load_count = 0; kml_load_count < ai_kml.length; kml_load_count++) {
             kmlLayer = new google.maps.KmlLayer({
@@ -64,6 +68,8 @@ function initMap() {
             //KMLデータをマップに反映
             kmlLayer.setMap(map);
         }
+    });
+    if(kmlLayer){
         google.maps.event.addListener(KmlLayer, 'click', function (event) {
             my_marker[i] = new google.maps.Marker({
                 position: { lat: event.latLng.lat(), lng: event.latLng.lng() },
@@ -89,8 +95,7 @@ function initMap() {
             );
             i++;
         });
-    });
-
+    }
 
     //任意の位置をクリックしてカスタムマーカーを表示
     google.maps.event.addListener(map, 'click', function (event) {
