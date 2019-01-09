@@ -79,6 +79,7 @@ function initMap() {
 
         //カスタムマーカーのメッセージ欄表示（マーカーをクリックで展開）
         attachMassage(my_marker[i],
+            //【未完成】マーカータイトルの設定
             '<form onSubmit="title_submit(\'marker_title'+i+'\')" id="title_form" name="title_form">'
             + '<input id="marker_title'+i+'" name="marker_title" type="text" placeholder="タイトルを入力">'
             + '<input type="submit" value="確定">'
@@ -95,6 +96,9 @@ function initMap() {
             //+ '</select>'
             + '<a href="#" onclick="changeIcon(' + i + ',\'custom_icon.png\')"><img src="./img/custom_icon.png"></a>'
             + '<a href="#" onclick="changeIcon(' + i + ',\'custom_icon2.png\')"><img src="./img/custom_icon2.png"></a>'
+            + '<a href="#" onclick="changeIcon(' + i + ',\'custom_icon3.png\')"><img src="./img/custom_icon3.png"></a>'
+            + '<a href="#" onclick="changeIcon(' + i + ',\'custom_icon4.png\')"><img src="./img/custom_icon4.png"></a>'
+            + '<a href="#" onclick="changeIcon(' + i + ',\'custom_icon5.png\')"><img src="./img/custom_icon5.png"></a>'
         );
         i++;
     });
@@ -182,6 +186,9 @@ function LoadKML(kasen_name) {
                 //+ '</select>'
                 + '<a href="#" onclick="changeIcon(' + i + ',\'custom_icon.png\')"><img src="./img/custom_icon.png"></a>'
                 + '<a href="#" onclick="changeIcon(' + i + ',\'custom_icon2.png\')"><img src="./img/custom_icon2.png"></a>'
+                + '<a href="#" onclick="changeIcon(' + i + ',\'custom_icon3.png\')"><img src="./img/custom_icon3.png"></a>'
+                + '<a href="#" onclick="changeIcon(' + i + ',\'custom_icon4.png\')"><img src="./img/custom_icon4.png"></a>'
+                + '<a href="#" onclick="changeIcon(' + i + ',\'custom_icon5.png\')"><img src="./img/custom_icon5.png"></a>'
             );
             i++;
         });
