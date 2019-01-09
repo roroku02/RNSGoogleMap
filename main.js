@@ -79,8 +79,13 @@ function initMap() {
 
         //カスタムマーカーのメッセージ欄表示（マーカーをクリックで展開）
         attachMassage(my_marker[i],
+            '<form onSubmit="title_submit(\'marker_title'+i+'\')" id="title_form" name="title_form">'
+            + '<input id="marker_title'+i+'" name="marker_title" type="text" placeholder="タイトルを入力">'
+            + '<input type="submit" value="確定">'
+            + '</form>'
+            + '<br />'
             //マーカーの削除処理呼び出し
-            '<a href="#" onclick="clear_marker(' + i + ')">マーカーを削除</a>'
+            + '<a href="#" onclick="clear_marker(' + i + ')">マーカーを削除</a>'
             + '<br>'
             // 変更アイコンの選択リスト
             /** (TODO)現在のmarkerアイコンの取得とselectedの出力 **/
@@ -125,6 +130,13 @@ function attachMassage(marker, msg) {
             content: msg
         }).open(marker.getMap(), marker);
     });
+}
+
+function title_submit(id) {
+    console.log("OK");
+    var title = document.getElementById(id);
+    var input = document.title_form.marker_title.value;
+    title.setAttribute('value',input);
 }
 
 function current_icon(num, name) {
