@@ -13,6 +13,9 @@ var ai_kml = [         //安威川浸水域KMLデータ
 ]
 var LoadKMLbutton;
 
+//カスタムマーカーのデフォルトアイコン
+var default_icon;
+
 function initMap() {
     //マップデフォルト位置設定（JR高槻駅）
     map_default = new google.maps.LatLng(34.851747492179066, 135.6176956788463);
@@ -22,6 +25,8 @@ function initMap() {
         center: map_default,
         zoom: 18
     });
+
+    default_icon = new google.maps.MarkerImage('./img/custom_icon.png')
 
     //デフォルト位置マーカー
     marker = new google.maps.Marker({
@@ -35,8 +40,6 @@ function initMap() {
         alert(event.latLng.lat() + '\n' + event.latLng.lng());
     });
 
-    //カスタムマーカーのデフォルトアイコン
-    var default_icon = new google.maps.MarkerImage('./img/custom_icon.png');
 
     /*for (let kml_load_count = 0; kml_load_count < ai_kml.length; kml_load_count++) {
         kmlLayer = new google.maps.KmlLayer({
@@ -154,6 +157,7 @@ function current_icon(num, name) {
 
 function LoadKML(kasen_name) {
     console.log(kasen_name);
+    default_icon = new google.maps.MarkerImage('./img/custom_icon.png')
     //KMLデータの読み込み
     for (let kml_load_count = 0; kml_load_count < ai_kml.length; kml_load_count++) {
         kmlLayer[kml_load_count] = new google.maps.KmlLayer({
@@ -175,8 +179,14 @@ function LoadKML(kasen_name) {
 
             //カスタムマーカーのメッセージ欄表示（マーカーをクリックで展開）
             attachMassage(my_marker[i],
+                //【未完成】マーカータイトルの設定
+                '<form onSubmit="title_submit(\'marker_title'+i+'\')" id="title_form" name="title_form">'
+                + '<input id="marker_title'+i+'" name="marker_title" type="text" placeholder="タイトルを入力">'
+                + '<input type="submit" value="確定">'
+                + '</form>'
+                + '<br />'
                 //マーカーの削除処理呼び出し
-                '<a href="#" onclick="clear_marker(' + i + ')">マーカーを削除</a>'
+                + '<a href="#" onclick="clear_marker(' + i + ')">マーカーを削除</a>'
                 + '<br>'
                 // 変更アイコンの選択リスト
                 /** (TODO)現在のmarkerアイコンの取得とselectedの出力 **/
