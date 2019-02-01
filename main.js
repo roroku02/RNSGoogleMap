@@ -4,6 +4,7 @@ var marker;
 var my_marker = [];
 var infoWindow;
 var i = 0;
+var value = ["TEST"];
 var kmlLayer = [];
 var ai_kml = [         //安威川浸水域KMLデータ
     "https://dl.dropboxusercontent.com/s/05bfeortffnmpez/flooded_area_ai_river_1.kml",
@@ -81,11 +82,11 @@ function initMap() {
         });
 
         //カスタムマーカーのメッセージ欄表示（マーカーをクリックで展開）
-        attachMassage(my_marker[i],
+        attachMessage(my_marker[i],
             //【未完成】マーカータイトルの設定
-            '<form onSubmit="title_submit(\'marker_title'+i+'\')" id="title_form" name="title_form">'
-            + '<input id="marker_title'+i+'" name="marker_title" type="text" placeholder="タイトルを入力">'
-            + '<input type="submit" value="確定">'
+            '<form id="title_form' + i + '" name="title_form">'
+            + '<input id="marker_title' + i + '" name="marker_title" type="text" placeholder="タイトルを入力" value="' + value[i] + '">'
+            + '<input type="button" value="確定" onclick="title_submit(' + i + ')">'
             + '</form>'
             + '<br />'
             //マーカーの削除処理呼び出し
@@ -102,6 +103,7 @@ function initMap() {
             + '<a href="#" onclick="changeIcon(' + i + ',\'custom_icon3.png\')"><img src="./img/custom_icon3.png"></a>'
             + '<a href="#" onclick="changeIcon(' + i + ',\'custom_icon4.png\')"><img src="./img/custom_icon4.png"></a>'
             + '<a href="#" onclick="changeIcon(' + i + ',\'custom_icon5.png\')"><img src="./img/custom_icon5.png"></a>'
+            , i
         );
         i++;
     });
@@ -131,19 +133,33 @@ function changeIcon(num, icon) {
 }
 
 //カスタムマーカーのメッセージ追加処理
-function attachMassage(marker, msg) {
+function attachMessage(marker, msg, i) {
+    var InfoWindow = new google.maps.InfoWindow({
+        content: msg
+    });
     google.maps.event.addListener(marker, 'click', function () {       //マーカーをクリックで展開
-        new google.maps.InfoWindow({
-            content: msg
-        }).open(marker.getMap(), marker);
+        InfoWindow.open(marker.getMap(), marker);
+    });
+    google.maps.event.addListener(InfoWindow, 'domready', function () {
+        changeMessage(i);
     });
 }
 
 function title_submit(id) {
     console.log("OK");
-    var title = document.getElementById(id);
+    /* var title = document.getElementById(id);
     var input = document.title_form.marker_title.value;
-    title.setAttribute('value',input);
+    title.setAttribute('value', input);
+    */
+    var text = document.getElementById("marker_title" + id).value;
+    value[id] = text;
+}
+
+function changeMessage(num) {
+    $("#marker_title0").attr("value", value[num]);
+    console.log($("#marker_title0"));
+    //console.log(document.getElementById("marker_title" + num));
+    //console.log(value[num]);
 }
 
 function current_icon(num, name) {
@@ -178,10 +194,10 @@ function LoadKML(kasen_name) {
             my_marker[i].setMap(map);
 
             //カスタムマーカーのメッセージ欄表示（マーカーをクリックで展開）
-            attachMassage(my_marker[i],
+            attachMessage(my_marker[i],
                 //【未完成】マーカータイトルの設定
-                '<form onSubmit="title_submit(\'marker_title'+i+'\')" id="title_form" name="title_form">'
-                + '<input id="marker_title'+i+'" name="marker_title" type="text" placeholder="タイトルを入力">'
+                '<form onSubmit="title_submit(\'marker_title' + i + '\')" id="title_form" name="title_form">'
+                + '<input id="marker_title' + i + '" name="marker_title" type="text" placeholder="タイトルを入力">'
                 + '<input type="submit" value="確定">'
                 + '</form>'
                 + '<br />'
