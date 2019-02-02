@@ -1,6 +1,8 @@
 var map_default;
 var map;
 var marker;
+var center_lat = '34.851747492179066';
+var center_lng = '135.6176956788463';
 var my_marker = [];
 var infoWindow;
 var i = 0;
@@ -19,28 +21,50 @@ var default_icon;
 
 function initMap() {
     //マップデフォルト位置設定（JR高槻駅）
-    map_default = new google.maps.LatLng(34.851747492179066, 135.6176956788463);
-
+    //map_default = new google.maps.LatLng(34.851747492179066, 135.6176956788463);
+    map_default = {lat: 34.851747492179066, lng: 135.6176956788463};
     //マップ表示
     map = new google.maps.Map(document.getElementById("map"), {
         center: map_default,
         zoom: 18
     });
-
+    
     default_icon = new google.maps.MarkerImage('./img/custom_icon.png')
-
+    
     //デフォルト位置マーカー
-    marker = new google.maps.Marker({
+    /*marker = new google.maps.Marker({
         position: map_default,
         map: map,
         draggable: true     //ドラッグ可能
-    });
-
+    });*/
+    
     //デフォルトマーカードラッグ終了イベント
-    google.maps.event.addListener(marker, 'dragend', function (event) {
-        alert(event.latLng.lat() + '\n' + event.latLng.lng());
-    });
-
+    /*google.maps.event.addListener(marker, 'dragend', function (event) {
+        //alert(event.latLng.LatLng());
+        center_lat = event.latLng.lat();
+        center_lng = event.latLng.lng();
+        streetView = new google.maps.StreetViewPanorama(
+            document.getElementById('streetView'),{
+                position:  new google.maps.LatLng(center_lat,center_lng),
+                pov: {
+                    heading: 34,
+                    pitch: 10
+                }
+            }
+        )
+    });*/
+    
+    var streetView = new google.maps.StreetViewPanorama(
+        document.getElementById('streetView'),{
+            position:  map_default,
+            pov: {
+                heading: 34,
+                pitch: 10
+            }
+        }
+    );
+    
+    map.setStreetView(streetView);
 
     /*for (let kml_load_count = 0; kml_load_count < ai_kml.length; kml_load_count++) {
         kmlLayer = new google.maps.KmlLayer({
@@ -52,7 +76,7 @@ function initMap() {
         //KMLデータをマップに反映
         kmlLayer.setMap(map);
     }*/
-
+    
     //KMLデータ読み込みボタン
     //ボタン生成
     LoadKMLButton = document.createElement('input');
@@ -64,8 +88,8 @@ function initMap() {
     LoadKMLButton.appendChild(text);
     //ボタンをマップに追加
     map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(LoadKMLButton);
-
-
+    
+    
     //任意の位置をクリックしてカスタムマーカーを表示
     google.maps.event.addListener(map, 'click', function (event) {
         my_marker[i] = new google.maps.Marker({
@@ -75,12 +99,12 @@ function initMap() {
             icon: default_icon
         });
         my_marker[i].setMap(map);
-
+        
         //カスタムマーカードラッグ終了イベント
         google.maps.event.addListener(my_marker[i], 'dragend', function (event) {
             //alert(event.latLng.lat() + '\n' + event.latLng.lng());
         });
-
+        
         //カスタムマーカーのメッセージ欄表示（マーカーをクリックで展開）
         attachMessage(my_marker[i],
             //【未完成】マーカータイトルの設定
@@ -105,11 +129,11 @@ function initMap() {
             + '<a href="#" onclick="changeIcon(' + i + ',\'custom_icon4.png\')"><img src="./img/custom_icon4.png"></a>'
             + '<a href="#" onclick="changeIcon(' + i + ',\'custom_icon5.png\')"><img src="./img/custom_icon5.png"></a>'
             , i
-        );
-        i++;
+            );
+            i++;
     });
-
-
+    
+    
 }
 
 //カスタムマーカーの削除
