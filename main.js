@@ -4,7 +4,7 @@ var marker;
 var my_marker = [];
 var infoWindow;
 var i = 0;
-var value = ["TEST"];
+var value = [];
 var kmlLayer = [];
 var ai_kml = [         //安威川浸水域KMLデータ
     "https://dl.dropboxusercontent.com/s/05bfeortffnmpez/flooded_area_ai_river_1.kml",
@@ -85,8 +85,9 @@ function initMap() {
         attachMessage(my_marker[i],
             //【未完成】マーカータイトルの設定
             '<form id="title_form' + i + '" name="title_form">'
-            + '<input id="marker_title' + i + '" name="marker_title" type="text" placeholder="タイトルを入力" value="' + value[i] + '">'
-            + '<input type="button" value="確定" onclick="title_submit(' + i + ')">'
+            + '<input id="marker_title' + i + '" class="marker_title_form" name="marker_title" type="text" placeholder="タイトルを入力">'
+            + '<input type="text" style="display:none;" />'
+            + '<button type="button" onclick="title_submit(' + i + ')">確定</button>'
             + '</form>'
             + '<br />'
             //マーカーの削除処理呼び出し

@@ -6,9 +6,12 @@ html , body {
     padding: 0;
 }
 
-#map {
+#map,#streetView {
     height: 100%;
+    width: 50%;
+    float: left;
 }
+
 
 #LoadKML {
     font-size: 30px;
@@ -17,4 +20,9 @@ html , body {
     padding: 5px;
     margin: 5px;
     cursor: pointer;
+}
+
+.marker_title_form {
+    border: none;
+    font-size: 24px;
 }
