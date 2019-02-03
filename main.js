@@ -250,4 +250,9 @@ function LoadKML(kasen_name) {
     console.log("OK");
 }
 
+$(function () {
+    $('#menu p').click(function () {
+        $(this).next('ul').slideToggle();
+    });
+});
 window.onload = initMap();
