@@ -17,12 +17,13 @@ html , body {
     top: 7%;
     right: 10px;
     z-index: 100;
-    width: 150px;
+    width: 200px;
     background: rgba(255, 255, 255, .5);
 }
 
 #menu p {
     text-align: center;
+    cursor: pointer;
 }
 
 .marker_list {
@@ -30,10 +31,14 @@ html , body {
     max-height: 80vh;    
 }
 
-#menu label {
-    font-weight: bold;
-    border: 1px solid orange;
-    cursor: pointer;
+.marker_list {
+    padding: 0;
+    padding-left: 5px;
+}
+
+.marker_list li {
+    text-decoration: none;
+    list-style: none;
 }
 
 #menu input {

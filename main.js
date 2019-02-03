@@ -129,7 +129,7 @@ function initMap() {
         );
         marker_list = [i];
         marker_list[i] = { "marker_img": "", "marker_title": "" };
-        $('.marker_list').append('<li>マーカー' + i + '</li>');
+        $('.marker_list').append('<li id="marker_num' + i + '">マーカー' + i + '</li>');
         i++;
     });
 
@@ -140,21 +140,20 @@ function initMap() {
 function clear_marker(num) {
     my_marker[num].setMap(null);
     my_marker[num] = null;
+    marker_list.unshift(num);
+    $('#marker_num' + num).remove();
 };
 
 //カスタムマーカーのアイコン変更
 function changeIcon(num, icon) {
-    /*var selected_icon = document.getElementById('select_icon' + num).value;
-    console.log('id => select_icon' + num + '::' + selected_icon);      //ログに変更IDと選択アイコンを出力（デバッグ用）
-    if (selected_icon == 'icon1') {
-        var custom_icon = new google.maps.MarkerImage('./img/custom_icon.png');
-    } else if (selected_icon == 'icon2') {
-        custom_icon = new google.maps.MarkerImage('./img/custom_icon2.png');
-    } else alert('予期せぬエラー');
-    //marker.getIcon().urlで現在のmarkerアイコンURL取得を取得
-    my_marker[num].setIcon(custom_icon);*/
     var custom_icon = new google.maps.MarkerImage('./img/' + icon);
     my_marker[num].setIcon(custom_icon);
+    marker_list[num].marker_img = "./img/" + icon;
+    if ($('#marker_num' + num + '> img').length) {
+        $('#marker_num' + num + '> img').replaceWith('<img src="./img/' + icon + '" />');
+    } else {
+        $('#marker_num' + num).prepend('<img src="./img/' + icon + '" />');
+    }
 }
 
 //カスタムマーカーのメッセージ追加処理
@@ -178,6 +177,8 @@ function title_submit(id) {
     */
     var text = document.getElementById("marker_title" + id).value;
     value[id] = text;
+    marker_list[id].marker_title = text;
+    /******************(TODO::マーカーリストの名前変更)*********************/
 }
 
 function changeMessage(num) {
