@@ -12,6 +12,36 @@ html , body {
     float: left;
 }
 
+#menu {
+    position: absolute;
+    top: 7%;
+    right: 10px;
+    z-index: 100;
+}
+
+.hidden_list {
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: .5s;
+}
+
+#menu label {
+    font-weight: bold;
+    border: 1px solid orange;
+    cursor: pointer;
+}
+
+#menu input {
+    display: none;
+}
+
+#menu input:checked ~ .hidden_list {
+    height: auto;
+    padding: 10px 0;
+    opacity: 1;
+}
 
 #LoadKML {
     font-size: 30px;
