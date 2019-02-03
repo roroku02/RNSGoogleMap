@@ -4,6 +4,7 @@ var marker;
 var center_lat = '34.851747492179066';
 var center_lng = '135.6176956788463';
 var my_marker = [];
+var marker_list;
 var infoWindow;
 var i = 0;
 var value = [];
@@ -110,7 +111,6 @@ function initMap() {
 
         //カスタムマーカーのメッセージ欄表示（マーカーをクリックで展開）
         attachMessage(my_marker[i],
-            //【未完成】マーカータイトルの設定
             '<form id="title_form' + i + '" name="title_form">'
             + '<input id="marker_title' + i + '" class="marker_title_form" name="marker_title" type="text" placeholder="タイトルを入力">'
             + '<input type="text" style="display:none;" />'
@@ -120,12 +120,6 @@ function initMap() {
             //マーカーの削除処理呼び出し
             + '<a href="#" onclick="clear_marker(' + i + ')">マーカーを削除</a>'
             + '<br>'
-            // 変更アイコンの選択リスト
-            /** (TODO)現在のmarkerアイコンの取得とselectedの出力 **/
-            //+ '<select id="select_icon' + i + '" onchange="changeIcon(' + i + ')">'
-            //+ ' <option value="icon1" ' + current_icon(i, "custom_icon.png") + '>icon1</option>'
-            //+ ' <option value="icon2" ' + current_icon(i, "custom_icon2.png") + '>icon2</option>'
-            //+ '</select>'
             + '<a href="#" onclick="changeIcon(' + i + ',\'custom_icon.png\')"><img src="./img/custom_icon.png"></a>'
             + '<a href="#" onclick="changeIcon(' + i + ',\'custom_icon2.png\')"><img src="./img/custom_icon2.png"></a>'
             + '<a href="#" onclick="changeIcon(' + i + ',\'custom_icon3.png\')"><img src="./img/custom_icon3.png"></a>'
@@ -133,6 +127,9 @@ function initMap() {
             + '<a href="#" onclick="changeIcon(' + i + ',\'custom_icon5.png\')"><img src="./img/custom_icon5.png"></a>'
             , i
         );
+        marker_list = [i];
+        marker_list[i] = { "marker_img": "", "marker_title": "" };
+        $('.marker_list').append('<li>マーカー' + i + '</li>');
         i++;
     });
 

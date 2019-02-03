@@ -24,14 +24,11 @@ html , body {
 #menu p {
     text-align: center;
 }
-/*
-.hidden_list {
-    height: 0;
-    padding: 0;
-    overflow: hidden;
-    opacity: 0;
-    transition: .5s;
-}*/
+
+.marker_list {
+    overflow-y: scroll;
+    max-height: 80vh;    
+}
 
 #menu label {
     font-weight: bold;
