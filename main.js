@@ -176,9 +176,13 @@ function title_submit(id) {
     title.setAttribute('value', input);
     */
     var text = document.getElementById("marker_title" + id).value;
+    if (text == "") {
+        alert("タイトルが空白です");
+        return false;
+    }
     value[id] = text;
     marker_list[id].marker_title = text;
-    /******************(TODO::マーカーリストの名前変更)*********************/
+    $('#marker_num' + id).text(marker_list[id].marker_title);
 }
 
 function changeMessage(num) {
