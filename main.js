@@ -67,9 +67,6 @@ function initMap() {
 
     map.setStreetView(streetView);
 
-    google.maps.event.addListener(streetView, 'zoom_changed', function () {
-        streetView.setPosition(map_default);
-    });
     /*for (let kml_load_count = 0; kml_load_count < ai_kml.length; kml_load_count++) {
         kmlLayer = new google.maps.KmlLayer({
             url: ai_kml[kml_load_count],
