@@ -16,7 +16,8 @@
     <div class="main">
         <div id="map"></div>
         <div id="menu">
-            <input type="checkbox" name="white" id="white_check">白地図
+            <input type="radio" name="white" id="white_check" onclick="changeMap('clear')">白地図
+            <input type="radio" name="river" id="water_check" onclick="changeMap('water')">川・水路に色を塗る
         </div>
     </div>
 </body>
