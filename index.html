@@ -7,22 +7,21 @@
     <title>RNSGoogleMap</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="main.js"></script>
 </head>
 
 <body onload="initMap()">
-    <div id="menu">
-        <p class="menu_title">マーカーリスト</p>
-        <ul class="marker_list">
-            <!--<li id="marker_numX">マーカーX</li>-->
-        </ul>
+    <div class="main">
+        <div id="map"></div>
+        <div id="menu">
+            <input type="checkbox" name="white" id="white_check">白地図
+        </div>
     </div>
-    <div id="map"></div>
-    <div id="streetView"></div>
 </body>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPzO_4ZpB_-aLQl8cQeCmpoJXR12it7yo&callback=initMap"></script>
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAPzO_4ZpB_-aLQl8cQeCmpoJXR12it7yo&callback=initMap"></script>
 
 </html>
