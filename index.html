@@ -16,8 +16,10 @@
     <div class="main">
         <div id="map"></div>
         <div id="menu">
-            <input type="button" value="water->red" onclick="changeColor('water','#f44242')"><br>
-            <input type="button" value="water->red&Change!" onclick="changeMap('water','#f44242','clear')"><br>
+            <label>川の色を選択してください</label><br>
+            <input type="button" value="" onclick="changechange('#f44242')" style="background-color: #f44242;">
+            <input type="button" value="" onclick="changechange('#498fff')" style="background-color: #498fff;"><br><br>
+
             <input type="radio" name="white" id="white_check" onclick="changeMap('clear')">白地図<br>
             <input type="radio" name="water" id="water_check" onclick="changeMap('water')">川・水路に色を塗る<br>
             <input type="radio" name="wide" id="wide_road_check" onclick="changeMap0('wide_road')">広い道路に色を塗る<br>

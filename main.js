@@ -24,13 +24,13 @@ function initMap() {
     });
 }
 
-function LoadDefaultStyle(){
+function LoadDefaultStyle() {
     var request = new XMLHttpRequest();
-    request.open('GET','./MapStyle.json');
+    request.open('GET', './MapStyle.json');
     request.responseType = 'json';
     request.send();
 
-    request.onload = function() {
+    request.onload = function () {
         styles = request.response;
     }
 }
@@ -58,25 +58,24 @@ function changeColor(type, color) {
         c_narrow_road = color;
 }
 
-var newData,changeData;
-function changechange(){
-    newData = styles.filter(function(item){
-        if(item.featureType != "water" && item.elementType != "all") return true;
+function changechange(color) {
+    var newData = styles.filter(function (item) {
+        if (item.featureType != "water" || item.elementType != "all") return true;
     });
-    changeData = styles.filter(function(item){
-        if(item.featureType == "water" && item.elementType == "all") return true;
+    var changeData = styles.filter(function (item) {
+        if (item.featureType == "water" && item.elementType == "all") return true;
     });
 
-    changeData[0].stylers.color = "#ff3d";
+    changeData[0].stylers = [{ "color": color }, { "visibility": "on" }];
     newData.push(changeData[0]);
 
     styles = newData;
-    
-    map.setOptions({styles: styles});
+
+    map.setOptions({ styles: styles });
 }
 
 LoadDefaultStyle();
-map.setOptions({styles: styles});
+map.setOptions({ styles: styles });
 
 /*
 var styles = {
