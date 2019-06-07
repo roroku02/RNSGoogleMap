@@ -49,24 +49,45 @@ function changeMap0(MapType) {
     map.setOptions({ styles: styles[MapType] });
 }
 
+
 function changeColor(type, color) {
-    if (type == 'water')
-        c_water = color;
-    else if (type == 'wide_road')
-        c_wide_road = color;
-    else if (type == 'narrow_road')
-        c_narrow_road = color;
-}
+    var newData, changeData;
+    switch (type) {
+        case "river":
+            newData = styles.filter(function (item) {
+                if (item.featureType != "water" || item.elementType != "all") return true;
+            });
+            changeData = styles.filter(function (item) {
+                if (item.featureType == "water" && item.elementType == "all") return true;
+            });
 
-function changechange(color) {
-    var newData = styles.filter(function (item) {
-        if (item.featureType != "water" || item.elementType != "all") return true;
-    });
-    var changeData = styles.filter(function (item) {
-        if (item.featureType == "water" && item.elementType == "all") return true;
-    });
+            changeData[0].stylers = [{ "color": color }, { "visibility": "on" }];
+            break;
 
-    changeData[0].stylers = [{ "color": color }, { "visibility": "on" }];
+        case "wide_road":
+            newData = styles.filter(function (item) {
+                if (item.featureType != "road.highway" || item.elementType != "all") return true;
+            });
+            changeData = styles.filter(function (item) {
+                if (item.featureType == "road.highway" && item.elementType == "all") return true;
+            });
+
+            changeData[0].stylers = [{ "color": color }, { "visibility": "simplified" }];
+            break;
+
+        /**(TODO::狭い道色つける場所が違う。fillで色つける。要確認！) */
+        case "narrow_road":
+            newData = styles.filter(function (item) {
+                if (item.featureType != "road.local" || item.elementType != "geometry.stroke") return true;
+            });
+            changeData = styles.filter(function (item) {
+                if (item.featureType == "road.local" && item.elementType == "geometry.stroke") return true;
+            });
+
+            changeData[0].stylers = [{ "color": color }, { "weight": "1.54" }, { "lightness": "36" }, { "gamma": "0.81" }];
+            break;
+    }
+
     newData.push(changeData[0]);
 
     styles = newData;
