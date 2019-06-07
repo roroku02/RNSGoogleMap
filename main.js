@@ -4,7 +4,7 @@ var marker;
 var center_lat = '34.851747492179066';
 var center_lng = '135.6176956788463';
 var my_marker = [];
-var marker_list;
+var marker_list = [];
 var infoWindow;
 var i = 0;
 var value = [];
@@ -124,7 +124,7 @@ function initMap() {
             + '<a href="#" onclick="changeIcon(' + i + ',\'custom_icon5.png\')"><img src="./img/custom_icon5.png"></a>'
             , i
         );
-        marker_list = [i];
+        //marker_list = [i];
         marker_list[i] = { "marker_img": "", "marker_title": "" };
         $('.marker_list').append('<li id="marker_num' + i + '">マーカー' + i + '</li>');
         i++;
@@ -146,6 +146,7 @@ function changeIcon(num, icon) {
     var custom_icon = new google.maps.MarkerImage('./img/' + icon);
     my_marker[num].setIcon(custom_icon);
     marker_list[num].marker_img = "./img/" + icon;
+    //マーカーリストのDOMを更新
     if ($('#marker_num' + num + '> img').length) {
         $('#marker_num' + num + '> img').replaceWith('<img src="./img/' + icon + '" />');
     } else {
