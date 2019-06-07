@@ -6,6 +6,47 @@ var center_lng = '135.6176956788463';
 //カスタムマーカーのデフォルトアイコン
 var default_icon;
 
+//カスタムカラー変数
+var c_water = "#efefef";
+var c_wide_road = "#eeeeee";
+var c_narrow_road = "#eeeeee";
+
+
+function initMap() {
+    //マップデフォルト位置設定（JR高槻駅）
+    //map_default = new google.maps.LatLng(34.851747492179066, 135.6176956788463);
+    map_default = { lat: 34.851747492179066, lng: 135.6176956788463 };
+    //マップ表示
+    map = new google.maps.Map(document.getElementById("map"), {
+        center: map_default,
+        zoom: 15,
+    });
+
+}
+
+function changeMap(type, color, MapType) {
+    if (type == 'water')
+        c_water = color;
+    else if (type == 'wide_road')
+        c_wide_road = color;
+    else if (type == 'narrow_road')
+        c_narrow_road = color;
+    map.setOptions({ styles: styles[MapType] });
+}
+
+function changeMap0(MapType) {
+    map.setOptions({ styles: styles[MapType] });
+}
+
+function changeColor(type, color) {
+    if (type == 'water')
+        c_water = color;
+    else if (type == 'wide_road')
+        c_wide_road = color;
+    else if (type == 'narrow_road')
+        c_narrow_road = color;
+}
+
 var styles = {
     clear: [
         {
@@ -110,6 +151,9 @@ var styles = {
             "stylers": [
                 {
                     "visibility": "simplified"
+                },
+                {
+                    "color": c_wide_road
                 }
             ]
         },
@@ -119,6 +163,24 @@ var styles = {
             "stylers": [
                 {
                     "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "road.local",
+            "elementType": "geometry.stroke",
+            "stylers": [
+                {
+                    "color": c_narrow_road
+                },
+                {
+                    "weight": "1.54"
+                },
+                {
+                    "lightness": "36"
+                },
+                {
+                    "gamma": "0.81"
                 }
             ]
         },
@@ -300,7 +362,7 @@ var styles = {
             "elementType": "all",
             "stylers": [
                 {
-                    "color": "#46bcec"
+                    "color": c_water
                 },
                 {
                     "visibility": "on"
@@ -697,20 +759,3 @@ var styles = {
         }
     ]
 };
-
-function initMap() {
-    //マップデフォルト位置設定（JR高槻駅）
-    //map_default = new google.maps.LatLng(34.851747492179066, 135.6176956788463);
-    map_default = { lat: 34.851747492179066, lng: 135.6176956788463 };
-    //マップ表示
-    map = new google.maps.Map(document.getElementById("map"), {
-        center: map_default,
-        zoom: 18,
-    });
-
-}
-
-function changeMap(MapType) {
-    map.setOptions({ styles: styles[MapType] });
-}
-
