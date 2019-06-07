@@ -3,6 +3,7 @@ var map;
 var marker;
 var center_lat = '34.851747492179066';
 var center_lng = '135.6176956788463';
+var styles;
 //カスタムマーカーのデフォルトアイコン
 var default_icon;
 
@@ -21,7 +22,17 @@ function initMap() {
         center: map_default,
         zoom: 15,
     });
+}
 
+function LoadDefaultStyle(){
+    var request = new XMLHttpRequest();
+    request.open('GET','./MapStyle.json');
+    request.responseType = 'json';
+    request.send();
+
+    request.onload = function() {
+        styles = request.response;
+    }
 }
 
 function changeMap(type, color, MapType) {
@@ -47,6 +58,27 @@ function changeColor(type, color) {
         c_narrow_road = color;
 }
 
+var newData,changeData;
+function changechange(){
+    newData = styles.filter(function(item){
+        if(item.featureType != "water" && item.elementType != "all") return true;
+    });
+    changeData = styles.filter(function(item){
+        if(item.featureType == "water" && item.elementType == "all") return true;
+    });
+
+    changeData[0].stylers.color = "#ff3d";
+    newData.push(changeData[0]);
+
+    styles = newData;
+    
+    map.setOptions({styles: styles});
+}
+
+LoadDefaultStyle();
+map.setOptions({styles: styles});
+
+/*
 var styles = {
     clear: [
         {
@@ -759,3 +791,4 @@ var styles = {
         }
     ]
 };
+*/
