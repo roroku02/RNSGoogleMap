@@ -50,8 +50,8 @@ function changeMap0(MapType) {
 }
 
 
+var newData, changeData;
 function changeColor(type, color) {
-    var newData, changeData;
     switch (type) {
         case "river":
             newData = styles.filter(function (item) {
@@ -66,13 +66,15 @@ function changeColor(type, color) {
 
         case "wide_road":
             newData = styles.filter(function (item) {
-                if (item.featureType != "road.highway" || item.elementType != "all") return true;
+                if (item.featureType != "road.highway" || item.elementType != "geometry") return true;
+                if (item.featureType != "road.arterial" || item.elementType != "geometry") return true;
             });
             changeData = styles.filter(function (item) {
-                if (item.featureType == "road.highway" && item.elementType == "all") return true;
+                if (item.featureType != "road.highway" && item.elementType != "geometry") return true;
+                if (item.featureType != "road.arterial" && item.elementType != "geometry") return true;
             });
 
-            changeData[0].stylers = [{ "color": color }, { "visibility": "simplified" }];
+            changeData[0].stylers = [{ "color": color }];
             break;
 
         /**(TODO::狭い道色つける場所が違う。fillで色つける。要確認！) */
