@@ -115,19 +115,10 @@
 },
 {
     "featureType": "road.local",
-    "elementType": "geometry.stroke",
+    "elementType": "geometry.fill",
     "stylers": [
         {
             "color": "#eeeeee"
-        },
-        {
-            "weight": "1.54"
-        },
-        {
-            "lightness": "36"
-        },
-        {
-            "gamma": "0.81"
         }
     ]
 },

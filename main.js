@@ -33,6 +33,8 @@ function LoadDefaultStyle() {
     request.onload = function () {
         styles = request.response;
     }
+
+    map.setOptions({ styles: styles });
 }
 
 function changeMap(type, color, MapType) {
@@ -50,7 +52,7 @@ function changeMap0(MapType) {
 }
 
 
-var newData, changeData;
+var newData, changeData;    //デバッグのためにグローバル変数化
 function changeColor(type, color) {
     switch (type) {
         case "river":
@@ -70,23 +72,24 @@ function changeColor(type, color) {
                 if (item.featureType != "road.arterial" || item.elementType != "geometry") return true;
             });
             changeData = styles.filter(function (item) {
-                if (item.featureType != "road.highway" && item.elementType != "geometry") return true;
-                if (item.featureType != "road.arterial" && item.elementType != "geometry") return true;
+                if (item.featureType == "road.highway" && item.elementType == "geometry") return true;
+                if (item.featureType == "road.arterial" && item.elementType == "geometry") return true;
+            });
+
+            for(var i = 0; i < changeData.length; i++){
+                changeData[i].stylers = [{"color": color}];
+            }
+            break;
+
+        case "narrow_road":
+            newData = styles.filter(function (item) {
+                if (item.featureType != "road.local" || item.elementType != "geometry.fill") return true;
+            });
+            changeData = styles.filter(function (item) {
+                if (item.featureType == "road.local" && item.elementType == "geometry.fill") return true;
             });
 
             changeData[0].stylers = [{ "color": color }];
-            break;
-
-        /**(TODO::狭い道色つける場所が違う。fillで色つける。要確認！) */
-        case "narrow_road":
-            newData = styles.filter(function (item) {
-                if (item.featureType != "road.local" || item.elementType != "geometry.stroke") return true;
-            });
-            changeData = styles.filter(function (item) {
-                if (item.featureType == "road.local" && item.elementType == "geometry.stroke") return true;
-            });
-
-            changeData[0].stylers = [{ "color": color }, { "weight": "1.54" }, { "lightness": "36" }, { "gamma": "0.81" }];
             break;
     }
 
@@ -98,7 +101,6 @@ function changeColor(type, color) {
 }
 
 LoadDefaultStyle();
-map.setOptions({ styles: styles });
 
 /*
 var styles = {
