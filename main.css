@@ -2,65 +2,22 @@
 
 html , body {
     height: 100%;
-    margin: 0;
+    margin: auto;
     padding: 0;
 }
 
-#map,#streetView {
-    height: 100%;
-    width: 50%;
-    float: left;
+.main {
+    display: flex;
+}
+
+#map {
+    margin: 30px;
+    height: 90vh;
+    width: 75%;
 }
 
 #menu {
-    position: absolute;
-    top: 7%;
-    right: 10px;
-    z-index: 100;
-    width: 200px;
-    background: rgba(255, 255, 255, .5);
-}
-
-#menu p {
-    text-align: center;
-    cursor: pointer;
-}
-
-.marker_list {
-    overflow-y: scroll;
-    max-height: 80vh;    
-}
-
-.marker_list {
-    padding: 0;
-    padding-left: 5px;
-}
-
-.marker_list li {
-    text-decoration: none;
-    list-style: none;
-}
-
-#menu input {
-    display: none;
-}
-
-#menu input:checked ~ .hidden_list {
-    height: auto;
-    padding: 10px 0;
-    opacity: 1;
-}
-
-#LoadKML {
-    font-size: 30px;
-    border: 3px solid red;
-    border-radius: 8px;
-    padding: 5px;
-    margin: 5px;
-    cursor: pointer;
-}
-
-.marker_title_form {
-    border: none;
-    font-size: 24px;
+    margin: 30px;
+    height: 90vh;
+    width: 25%;
 }
