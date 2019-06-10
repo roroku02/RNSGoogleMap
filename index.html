@@ -36,6 +36,20 @@
             <label>白地図に戻す</label>
             <input type="button" value="リセット" onclick="LoadDefaultStyle()"><br><br>
 
+            <input type="radio" id="f_ai" onclick="setKML('ai')">
+            <label for="f_ai">安威川</label>
+            <input type="radio" id="f_akuta" onclick="setKML('akuta')">
+            <label for="f_ai">芥川</label>
+            <input type="radio" id="f_hio" onclick="setKML('hio')">
+            <label for="f_ai">檜尾川</label>
+            <input type="radio" id="f_minase" onclick="setKML('minase')">
+            <label for="f_ai">水無瀬川</label>
+            <input type="radio" id="f_nyoze" onclick="setKML('nyoze')">
+            <label for="f_ai">女瀬川</label>
+            <input type="radio" id="f_yodo" onclick="setKML('yodo')">
+            <label for="f_ai">淀川</label>
+
+            <br><br>
             <input type="radio" name="white" id="white_check" onclick="changeMap('clear')">白地図<br>
             <input type="radio" name="water" id="water_check" onclick="changeMap('water')">川・水路に色を塗る<br>
             <input type="radio" name="wide" id="wide_road_check" onclick="changeMap0('wide_road')">広い道路に色を塗る<br>
