@@ -16,9 +16,9 @@ var kml_url = {
   ],
   "akuta": [
     "http://w3.hz.kutc.kansai-u.ac.jp/exp/city.takatsuki/hazard/sites/city.takatsuki/k/f/akuta/1.kml",
-    "http://w3.hz.kutc.kansai-u.ac.jp/exp/city.takatsuki/hazard/sites/city.takatsuki/k/f/akuta/1.kml",
-    "http://w3.hz.kutc.kansai-u.ac.jp/exp/city.takatsuki/hazard/sites/city.takatsuki/k/f/akuta/1.kml",
-    "http://w3.hz.kutc.kansai-u.ac.jp/exp/city.takatsuki/hazard/sites/city.takatsuki/k/f/akuta/1.kml",
+    "http://w3.hz.kutc.kansai-u.ac.jp/exp/city.takatsuki/hazard/sites/city.takatsuki/k/f/akuta/2.kml",
+    "http://w3.hz.kutc.kansai-u.ac.jp/exp/city.takatsuki/hazard/sites/city.takatsuki/k/f/akuta/3.kml",
+    "http://w3.hz.kutc.kansai-u.ac.jp/exp/city.takatsuki/hazard/sites/city.takatsuki/k/f/akuta/4.kml",
     "http://w3.hz.kutc.kansai-u.ac.jp/exp/city.takatsuki/hazard/sites/city.takatsuki/k/f/akuta/5.kml"
   ],
   "hio": [
