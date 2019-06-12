@@ -1,6 +1,7 @@
 var map_default;
 var map;
 var marker;
+var overlay;
 var center_lat = '34.851747492179066';
 var center_lng = '135.6176956788463';
 var styles;
@@ -61,6 +62,12 @@ var c_water = "#efefef";
 var c_wide_road = "#eeeeee";
 var c_narrow_road = "#eeeeee";
 
+var question = [
+    {
+        "id": '001',
+        "icon": "./img/custom_icon.png",
+    }
+];
 
 function initMap() {
     //マップデフォルト位置設定（JR高槻駅）
@@ -71,6 +78,11 @@ function initMap() {
         center: map_default,
         zoom: 15,
     });
+    overlay = new google.maps.OverlayView();
+    overlay.draw = function () { };
+    overlay.setMap(map);
+
+    generateQuestion(question);
 }
 
 function LoadDefaultStyle() {
@@ -163,4 +175,40 @@ function setKML(kasen) {
         kmlLayer.setMap(map);
     }
 }
+
+function generateQuestion(data) {
+    for (var i = 0; i < data.length; i++) {
+        if (!data[i].id) break;
+        var content = '<li><img src=" ' + data[i].icon + '"/ class="dragicon"></li>';
+        $('#question_drag').append(content);
+    }
+    $('.dragicon').draggable({
+        stop: function (e, ui) {
+            var index = $(question['id']).index($(this).data('id'));
+            console.log(index);
+            dragIn(e, this, index);
+        }
+    });
+}
+
+Array.prototype.itemIndex = function (key, item) {
+    for (i = 0; i < this.length; i++) {
+        if (this[i][key] == item) {
+            return i;
+        }
+    }
+    return -1;
+};
+
+function dragIn(e, icon, index) {
+    var x = e.pageX - $('#map').offset().left;
+    var y = e.pageY;
+    if (x > 0) {
+        var point = new google.maps.Point(x, y);
+        var position = overlay.getProjection().fromContainerPixelToLatLng(point);
+        question[index].mapPosition = [position.lat(), position.lng()];
+    }
+}
+
+
 LoadDefaultStyle();

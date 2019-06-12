@@ -9,6 +9,9 @@
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/themes/smoothness/jquery-ui.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"></script>
+
     <script src="main.js"></script>
 </head>
 
@@ -50,10 +53,8 @@
             <label for="f_ai">淀川</label>
 
             <br><br>
-            <input type="radio" name="white" id="white_check" onclick="changeMap('clear')">白地図<br>
-            <input type="radio" name="water" id="water_check" onclick="changeMap('water')">川・水路に色を塗る<br>
-            <input type="radio" name="wide" id="wide_road_check" onclick="changeMap0('wide_road')">広い道路に色を塗る<br>
-            <input type="radio" name="narrow" id="narrow_road_check" onclick="changeMap0('clear')">狭い道路に色を塗る<br>
+
+            <div id="question_drag"></div>
         </div>
     </div>
 </body>
