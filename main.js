@@ -183,13 +183,14 @@ function setKML(kasen) {
 function generateQuestion(data) {
     for (var i = 0; i < data.length; i++) {
         if (!data[i].id) break;
-        var content = '<li><img src=" ' + data[i].icon + '"/ class="dragicon"></li>';
+        var content = '<li><img data-id="' + data[i].id + '" src=" ' + data[i].icon + '"/ class="dragicon"></li>';
         $('#question_drag').append(content);
     }
     $('.dragicon').draggable({
         stop: function (e, ui) {
-            var index = $(question['id']).index($(this).data('id'));
-            dragIn(e, this.src, index);
+            var index = question.itemIndex('id', $(this).data('id'));
+            console.log($(this));
+            dragIn(e, this, index);
         }
     });
 }
@@ -200,6 +201,7 @@ Array.prototype.itemIndex = function (key, item) {
             return i;
         }
     }
+    console.log(item);
     return -1;
 };
 
