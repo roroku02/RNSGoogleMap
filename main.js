@@ -66,7 +66,11 @@ var question = [
     {
         "id": '001',
         "icon": "./img/custom_icon.png",
-    }
+    },
+    {
+        "id": '002',
+        "icon": "./img/custom_icon2.png",
+    },
 ];
 
 function initMap() {
@@ -185,8 +189,7 @@ function generateQuestion(data) {
     $('.dragicon').draggable({
         stop: function (e, ui) {
             var index = $(question['id']).index($(this).data('id'));
-            console.log(index);
-            dragIn(e, this, index);
+            dragIn(e, this.src, index);
         }
     });
 }
