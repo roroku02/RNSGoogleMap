@@ -1,6 +1,5 @@
 var map_default;
 var map;
-var marker;
 var overlay;
 var center_lat = '34.851747492179066';
 var center_lng = '135.6176956788463';
@@ -8,6 +7,7 @@ var styles;
 //カスタムマーカーのデフォルトアイコン
 var default_icon;
 
+//氾濫河川KML
 var kml_url = {
     "ai": [
         "http://w3.hz.kutc.kansai-u.ac.jp/exp/city.takatsuki/hazard/sites/city.takatsuki/k/f/ai/1.kml",
@@ -62,6 +62,7 @@ var c_water = "#efefef";
 var c_wide_road = "#eeeeee";
 var c_narrow_road = "#eeeeee";
 
+//問題
 var question = [
     {
         "id": '001',
@@ -186,32 +187,55 @@ function generateQuestion(data) {
         var content = '<li><img data-id="' + data[i].id + '" src=" ' + data[i].icon + '"/ class="dragicon"></li>';
         $('#question_drag').append(content);
     }
+    //JQ UIのドラッグ機能利用
     $('.dragicon').draggable({
         stop: function (e, ui) {
             var index = question.itemIndex('id', $(this).data('id'));
-            console.log($(this));
             dragIn(e, this, index);
         }
     });
 }
 
+//配列内のインデックスを返す
 Array.prototype.itemIndex = function (key, item) {
     for (i = 0; i < this.length; i++) {
         if (this[i][key] == item) {
             return i;
         }
     }
-    console.log(item);
     return -1;
 };
 
 function dragIn(e, icon, index) {
+    //ドラッグエンド時のマウス位置を取得（ピクセル単位）
     var x = e.pageX - $('#map').offset().left;
     var y = e.pageY;
     if (x > 0) {
         var point = new google.maps.Point(x, y);
+        //ドラッグエンド位置のピクセルをGoogleMaps上の緯度経度に変換
         var position = overlay.getProjection().fromContainerPixelToLatLng(point);
         question[index].mapPosition = [position.lat(), position.lng()];
+        //GoogleMapsMarkerに変換
+        generateMarker();
+
+        //GoogleMapsMarkerに変換後，JQのアイコンは元位置に戻す
+        $(icon).attr('style', 'position: relative; left: 0; top: 0;');
+    }
+}
+
+function generateMarker() {
+    for (const i in question) {
+        if (question[i].mapPosition) {
+            var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(question[i].mapPosition[0], question[i].mapPosition[1]),
+                map: map,
+                draggable: true,
+                icon: {
+                    url: question[i].icon,
+                },
+            });
+
+        }
     }
 }
 
