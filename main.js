@@ -101,7 +101,25 @@ function LoadDefaultStyle() {
     }
 
     map.setOptions({ styles: styles });
+
 }
+
+function LoadCSV(file_path){
+    var request = new XMLHttpRequest();
+    request.open = ('GET',file_path,true);
+    request.send();
+
+    request.onload = function(){
+        var result = [];
+        var tmp = request.responseText.split('\n');
+
+        for(var i = 0; i < tmp.length; i++){
+            result[i] = tmp[i].split(',');
+        }
+    }
+    return result;
+}
+
 
 function changeMap(type, color, MapType) {
     if (type == 'water')
@@ -238,6 +256,7 @@ function generateMarker() {
         }
     }
 }
+
 
 
 LoadDefaultStyle();
