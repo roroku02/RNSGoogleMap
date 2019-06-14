@@ -92,16 +92,15 @@ function initMap() {
     generateQuestion(question);
 }
 
-function LoadJSON(path){
+function LoadJSON(path) {
     var result;     //?
     var request = new XMLHttpRequest();
     request.open('GET', path);
     request.responseType = 'json';
     request.send();
 
-    request.onload = function() {
+    request.onload = function () {
         result = request.response;
-        console.log(result);
     }
 
     return result;
@@ -112,17 +111,17 @@ function LoadDefaultStyle() {
     map.setOptions({ styles: styles });
 }
 
-function LoadCSV(file_path){
+function LoadCSV(file_path) {
     var request = new XMLHttpRequest();
-    request.open('GET',file_path,true);
+    request.open('GET', file_path, true);
     request.responseType = 'csv';
     request.send();
 
     var result = [];
-    request.onload = function(){
+    request.onload = function () {
         var tmp = request.responseText.split('\n');
 
-        for(var i = 0; i < tmp.length; i++){
+        for (var i = 0; i < tmp.length; i++) {
             result[i] = tmp[i].split(',');
         }
     }
@@ -266,9 +265,10 @@ function generateMarker() {
     }
 }
 
-function displayShelter(){
-    $.getJSON('./data/shelter_list.json',function(json){
+function displayShelter() {
+    $.getJSON('./data/shelter_list.json', function (json) {
         shelter = json;
+        console.log(json);
     });
 }
 
