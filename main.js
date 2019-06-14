@@ -92,7 +92,7 @@ function initMap() {
     generateQuestion(question);
 }
 
-function LoadJSON(path) {
+function LoadJSON(path) {   //改修中
     var result;     //?
     var request = new XMLHttpRequest();
     request.open('GET', path);
@@ -107,7 +107,9 @@ function LoadJSON(path) {
 }
 
 function LoadDefaultStyle() {
-    styles = LoadJSON('./MapStyle.json');
+    $.getJSON('./MapStyle.json', function (style) {
+        styles = style;
+    });
     map.setOptions({ styles: styles });
 }
 
@@ -242,25 +244,31 @@ function dragIn(e, icon, index) {
         var position = overlay.getProjection().fromContainerPixelToLatLng(point);
         question[index].mapPosition = [position.lat(), position.lng()];
         //GoogleMapsMarkerに変換
-        generateMarker();
+        generateMarker(question, true);
 
         //GoogleMapsMarkerに変換後，JQのアイコンは元位置に戻す
         $(icon).attr('style', 'position: relative; left: 0; top: 0;');
     }
 }
 
-function generateMarker() {
-    for (const i in question) {
-        if (question[i].mapPosition) {
+function generateMarker(data, drag) {
+    for (const i in data) {
+        if (data[i].mapPosition) {
             var marker = new google.maps.Marker({
-                position: new google.maps.LatLng(question[i].mapPosition[0], question[i].mapPosition[1]),
+                position: new google.maps.LatLng(data[i].mapPosition[0], data[i].mapPosition[1]),
                 map: map,
-                draggable: true,
+                draggable: drag,
                 icon: {
-                    url: question[i].icon,
+                    url: data[i].icon,
                 },
             });
-
+        }
+        if (data[i].lat) {
+            var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(data[i].lat, data[i].lng),
+                map: map,
+                draggable: drag,
+            });
         }
     }
 }
@@ -268,8 +276,8 @@ function generateMarker() {
 function displayShelter() {
     $.getJSON('./data/shelter_list.json', function (json) {
         shelter = json;
-        console.log(json);
     });
+    generateMarker(shelter, false);     //ここでスタック
 }
 
 LoadDefaultStyle();
