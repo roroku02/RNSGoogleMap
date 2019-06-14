@@ -7,6 +7,8 @@ var styles;
 //カスタムマーカーのデフォルトアイコン
 var default_icon;
 
+var shelter;
+
 //氾濫河川KML
 var kml_url = {
     "ai": [
@@ -90,27 +92,34 @@ function initMap() {
     generateQuestion(question);
 }
 
-function LoadDefaultStyle() {
+function LoadJSON(path){
+    var result;     //?
     var request = new XMLHttpRequest();
-    request.open('GET', './MapStyle.json');
+    request.open('GET', path);
     request.responseType = 'json';
     request.send();
 
-    request.onload = function () {
-        styles = request.response;
+    request.onload = function() {
+        result = request.response;
+        console.log(result);
     }
 
-    map.setOptions({ styles: styles });
+    return result;
+}
 
+function LoadDefaultStyle() {
+    styles = LoadJSON('./MapStyle.json');
+    map.setOptions({ styles: styles });
 }
 
 function LoadCSV(file_path){
     var request = new XMLHttpRequest();
-    request.open = ('GET',file_path,true);
+    request.open('GET',file_path,true);
+    request.responseType = 'csv';
     request.send();
 
+    var result = [];
     request.onload = function(){
-        var result = [];
         var tmp = request.responseText.split('\n');
 
         for(var i = 0; i < tmp.length; i++){
@@ -257,6 +266,10 @@ function generateMarker() {
     }
 }
 
-
+function displayShelter(){
+    $.getJSON('./data/shelter_list.json',function(json){
+        shelter = json;
+    });
+}
 
 LoadDefaultStyle();
