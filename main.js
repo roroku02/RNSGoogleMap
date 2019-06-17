@@ -252,10 +252,11 @@ function dragIn(e, icon, index) {
 }
 
 function generateMarker(data, drag) {
-    console.log(data);
+    var marker = [];
+    var infowindow = [];
     for (const i in data) {
         if (data[i].mapPosition) {
-            var marker = new google.maps.Marker({
+            marker[i] = new google.maps.Marker({
                 position: new google.maps.LatLng(data[i].mapPosition[0], data[i].mapPosition[1]),
                 map: map,
                 draggable: drag,
@@ -263,13 +264,25 @@ function generateMarker(data, drag) {
                     url: data[i].icon,
                 },
             });
+            infowindow[i] = new google.maps.InfoWindow({
+                content: 'test',
+            });
+            marker[i].addListener('click',function(){
+                infowindow[i].open(map,marker[i]);
+            });
         }
         if (data[i].lat) {
-            console.log("OK");
-            var marker = new google.maps.Marker({
+            marker[i] = new google.maps.Marker({
                 position: new google.maps.LatLng(data[i].lat, data[i].lng),
                 map: map,
                 draggable: drag,
+                title: data[i].label
+            });
+            infowindow[i] = new google.maps.InfoWindow({
+                content: data[i].label,
+            })
+            marker[i].addListener('click',function(){
+                infowindow[i].open(map,marker[i]);
             });
         }
     }
