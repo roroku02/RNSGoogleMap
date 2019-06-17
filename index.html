@@ -17,7 +17,7 @@
 
 <body>
     <div class="main">
-        <div id="map"></div>
+        <div id="map" onload="LoadDefaultStyle()"></div>
         <div id="menu">
             <label>川の色を選択してください</label><br>
             <input type="button" value="" onclick="changeColor('river','#f44242')" style="background-color: #f44242;">
@@ -36,9 +36,13 @@
             <input type="button" value="" onclick="changeColor('narrow_road','#caa5ff')"
                 style="background-color: #caa5ff;"><br><br>
 
+            <label for="display_shelter">避難所を表示</label>
+            <input type="button" value="表示" id = "display_shelter" onclick="displayShelter()"><br><br>
+
             <label>白地図に戻す</label>
             <input type="button" value="リセット" onclick="LoadDefaultStyle()"><br><br>
 
+            <label>浸水想定区域データの読み込み</label><br>
             <input type="radio" id="f_ai" onclick="setKML('ai')">
             <label for="f_ai">安威川</label>
             <input type="radio" id="f_akuta" onclick="setKML('akuta')">

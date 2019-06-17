@@ -7,7 +7,7 @@ var styles;
 //カスタムマーカーのデフォルトアイコン
 var default_icon;
 
-var shelter;
+//var shelter;
 
 //氾濫河川KML
 var kml_url = {
@@ -110,7 +110,7 @@ function LoadDefaultStyle() {
     $.getJSON('./MapStyle.json', function (style) {
         styles = style;
     });
-    map.setOptions({ styles: styles });
+    map.setOptions({ styles: styles });    
 }
 
 function LoadCSV(file_path) {
@@ -252,6 +252,7 @@ function dragIn(e, icon, index) {
 }
 
 function generateMarker(data, drag) {
+    console.log(data);
     for (const i in data) {
         if (data[i].mapPosition) {
             var marker = new google.maps.Marker({
@@ -264,6 +265,7 @@ function generateMarker(data, drag) {
             });
         }
         if (data[i].lat) {
+            console.log("OK");
             var marker = new google.maps.Marker({
                 position: new google.maps.LatLng(data[i].lat, data[i].lng),
                 map: map,
@@ -275,9 +277,9 @@ function generateMarker(data, drag) {
 
 function displayShelter() {
     $.getJSON('./data/shelter_list.json', function (json) {
-        shelter = json;
+        var shelter = json;
+        generateMarker(shelter, false);
     });
-    generateMarker(shelter, false);     //ここでスタック
 }
 
-LoadDefaultStyle();
+//google.maps.event.addDomListener(window,'load',LoadDefaultStyle);
