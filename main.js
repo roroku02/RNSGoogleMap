@@ -76,6 +76,13 @@ var question = [
     },
 ];
 
+var disaster_image = [
+    {
+        "id": "001",
+        "image": './img/saigai1.png'
+    }
+];
+
 function initMap() {
     //マップデフォルト位置設定（JR高槻駅）
     //map_default = new google.maps.LatLng(34.851747492179066, 135.6176956788463);
@@ -90,6 +97,7 @@ function initMap() {
     overlay.setMap(map);
 
     generateQuestion(question);
+    draggableImage();
 }
 
 function LoadJSON(path) {   //改修中
@@ -224,6 +232,23 @@ function generateQuestion(data) {
     });
 }
 
+
+function draggableImage(){
+    for (var i = 0; i < disaster_image.length; i++) {
+        var image = '<li><img src="' + disaster_image[i].image + '" class="draggable_image" </img></li>';
+        $('#drag_image').append(image);
+    }
+
+    $('.draggable_image').draggable({
+        revert: "invalid"
+    });
+
+    $('.droppable_area').droppable({
+        //accept: '.draggable_image > img'
+    });
+
+}
+
 //配列内のインデックスを返す
 Array.prototype.itemIndex = function (key, item) {
     for (i = 0; i < this.length; i++) {
@@ -265,7 +290,9 @@ function generateMarker(data, drag) {
                 },
             });
             infowindow[i] = new google.maps.InfoWindow({
-                content: 'test',
+                content: 
+                '<h1 style="font-size: 1.2em">この場所の危険ポイントを選んでください</h1>' 
+                + '<div class="droppable_area">ここにドロップ</div>',
             });
             marker[i].addListener('click',function(){
                 infowindow[i].open(map,marker[i]);
@@ -294,5 +321,6 @@ function displayShelter() {
         generateMarker(shelter, false);
     });
 }
+
 
 //google.maps.event.addDomListener(window,'load',LoadDefaultStyle);
