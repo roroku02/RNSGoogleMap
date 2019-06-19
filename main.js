@@ -78,7 +78,7 @@ var question = [
 
 var disaster_image = [
     {
-        "id": "001",
+        "name": "gakekuzure",
         "image": './img/saigai1.png'
     }
 ];
@@ -235,7 +235,7 @@ function generateQuestion(data) {
 
 function draggableImage(){
     for (var i = 0; i < disaster_image.length; i++) {
-        var image = '<li><img src="' + disaster_image[i].image + '" class="draggable_image" </img></li>';
+        var image = '<li><img src="' + disaster_image[i].image + '" id= "' + disaster_image[i].name + '" class="draggable_image" </img></li>';
         $('#drag_image').append(image);
     }
 
@@ -300,6 +300,11 @@ function generateMarker(data, drag) {
             //InfoWindowに処理を追加する場合は必ずdomreadyを待つ
             google.maps.event.addListener(infowindow[i],'domready',function(){
                 $('.droppable_area').droppable({
+                    drop: function(e,ui){
+                        //TODO：ドラッグされた画像IDと場所を配列に格納
+                        //InfoWindow消しても再表示出来るようにする
+                        console.log(ui.draggable[0].id);
+                    }
                 });
             })
         }
