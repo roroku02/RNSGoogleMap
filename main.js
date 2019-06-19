@@ -240,11 +240,10 @@ function draggableImage(){
     }
 
     $('.draggable_image').draggable({
-        revert: "invalid"
+        revert: 'invalid'
     });
 
     $('.droppable_area').droppable({
-        //accept: '.draggable_image > img'
     });
 
 }
@@ -297,6 +296,12 @@ function generateMarker(data, drag) {
             marker[i].addListener('click',function(){
                 infowindow[i].open(map,marker[i]);
             });
+            
+            //InfoWindowに処理を追加する場合は必ずdomreadyを待つ
+            google.maps.event.addListener(infowindow[i],'domready',function(){
+                $('.droppable_area').droppable({
+                });
+            })
         }
         if (data[i].lat) {
             marker[i] = new google.maps.Marker({
