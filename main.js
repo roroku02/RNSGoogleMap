@@ -79,9 +79,31 @@ var question = [
 var disaster_image = [
     {
         "name": "gakekuzure",
-        "image": './img/saigai1.png'
+        "image": './img/saigai1.png',
+        "marker": []
     }
 ];
+
+var hazard_point = [
+    {
+        "id": '001',
+        "label": "アンダーパス",
+        "lat": '34.851341',
+        "lng": '135.626296'
+    },
+    {
+        "id": '002',
+        "label": "アンダーパス",
+        "lat": '34.85363',
+        "lng": '135.631092'
+    },
+    {
+        "id": '003',
+        "label": "アンダーパス",
+        "lat": '34.850417',
+        "lng": '135.615535'
+    }
+]
 
 function initMap() {
     //マップデフォルト位置設定（JR高槻駅）
@@ -98,6 +120,7 @@ function initMap() {
 
     generateQuestion(question);
     draggableImage();
+    generateMarker(hazard_point, false, true)
 }
 
 function LoadJSON(path) {   //改修中
@@ -118,7 +141,7 @@ function LoadDefaultStyle() {
     $.getJSON('./MapStyle.json', function (style) {
         styles = style;
     });
-    map.setOptions({ styles: styles });    
+    map.setOptions({ styles: styles });
 }
 
 function LoadCSV(file_path) {
@@ -233,7 +256,7 @@ function generateQuestion(data) {
 }
 
 
-function draggableImage(){
+function draggableImage() {
     for (var i = 0; i < disaster_image.length; i++) {
         var image = '<li><img src="' + disaster_image[i].image + '" id= "' + disaster_image[i].name + '" class="draggable_image" </img></li>';
         $('#drag_image').append(image);
@@ -268,14 +291,15 @@ function dragIn(e, icon, index) {
         var position = overlay.getProjection().fromContainerPixelToLatLng(point);
         question[index].mapPosition = [position.lat(), position.lng()];
         //GoogleMapsMarkerに変換
-        generateMarker(question, true);
+        generateMarker(question, true, true);
 
         //GoogleMapsMarkerに変換後，JQのアイコンは元位置に戻す
         $(icon).attr('style', 'position: relative; left: 0; top: 0;');
     }
 }
 
-function generateMarker(data, drag) {
+
+function generateMarker(data, drag, droppable) {
     var marker = [];
     var infowindow = [];
     for (const i in data) {
@@ -288,25 +312,30 @@ function generateMarker(data, drag) {
                     url: data[i].icon,
                 },
             });
-            infowindow[i] = new google.maps.InfoWindow({
-                content: 
-                '<h1 style="font-size: 1.2em">この場所の危険ポイントを選んでください</h1>' 
-                + '<div class="droppable_area">ここにドロップ</div>',
-            });
-            marker[i].addListener('click',function(){
-                infowindow[i].open(map,marker[i]);
-            });
-            
-            //InfoWindowに処理を追加する場合は必ずdomreadyを待つ
-            google.maps.event.addListener(infowindow[i],'domready',function(){
-                $('.droppable_area').droppable({
-                    drop: function(e,ui){
-                        //TODO：ドラッグされた画像IDと場所を配列に格納
-                        //InfoWindow消しても再表示出来るようにする
-                        console.log(ui.draggable[0].id);
-                    }
+            if (droppable == true) {
+                infowindow[i] = new google.maps.InfoWindow({
+                    content:
+                        '<h1 style="font-size: 1.2em">この場所の危険ポイントを選んでください</h1>'
+                        + '<div class="droppable_area">ここにドロップ</div>',
                 });
-            })
+                marker[i].addListener('click', function () {
+                    infowindow[i].open(map, marker[i]);
+                });
+
+                //InfoWindowに処理を追加する場合は必ずdomreadyを待つ
+                google.maps.event.addListener(infowindow[i], 'domready', function () {
+                    $('.droppable_area').droppable({
+                        drop: function (e, ui) {
+                            //TODO：ドラッグされた画像IDと場所を配列に格納
+                            //InfoWindow消しても再表示出来るようにする
+                            console.log(ui.draggable[0].id);
+                            var index = disaster_image.itemIndex('name', ui.draggable[0].id);
+                            console.log(disaster_image[index]);
+                            disaster_image[index].marker.push(i);
+                        }
+                    });
+                })
+            }
         }
         if (data[i].lat) {
             marker[i] = new google.maps.Marker({
@@ -315,12 +344,37 @@ function generateMarker(data, drag) {
                 draggable: drag,
                 title: data[i].label
             });
-            infowindow[i] = new google.maps.InfoWindow({
-                content: data[i].label,
-            })
-            marker[i].addListener('click',function(){
-                infowindow[i].open(map,marker[i]);
-            });
+            if (droppable == false) {
+                infowindow[i] = new google.maps.InfoWindow({
+                    content: data[i].label,
+                })
+                marker[i].addListener('click', function () {
+                    infowindow[i].open(map, marker[i]);
+                });
+            } else {
+                infowindow[i] = new google.maps.InfoWindow({
+                    content:
+                        '<h1 style="font-size: 1.2em">この場所の危険ポイントを選んでください</h1>'
+                        + '<div class="droppable_area">ここにドロップ</div>',
+                });
+                marker[i].addListener('click', function () {
+                    infowindow[i].open(map, marker[i]);
+                });
+
+                //InfoWindowに処理を追加する場合は必ずdomreadyを待つ
+                google.maps.event.addListener(infowindow[i], 'domready', function () {
+                    $('.droppable_area').droppable({
+                        drop: function (e, ui) {
+                            //TODO：ドラッグされた画像IDと場所を配列に格納
+                            //InfoWindow消しても再表示出来るようにする
+                            console.log(ui.draggable[0].id);
+                            var index = disaster_image.itemIndex('name', ui.draggable[0].id);
+                            console.log(disaster_image[index]);
+                            disaster_image[index].marker.push(i);
+                        }
+                    });
+                })
+            }
         }
     }
 }
@@ -328,7 +382,7 @@ function generateMarker(data, drag) {
 function displayShelter() {
     $.getJSON('./data/shelter_list.json', function (json) {
         var shelter = json;
-        generateMarker(shelter, false);
+        generateMarker(shelter, false, false);
     });
 }
 
