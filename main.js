@@ -89,19 +89,22 @@ var hazard_point = [
         "id": '001',
         "label": "アンダーパス",
         "lat": '34.851341',
-        "lng": '135.626296'
+        "lng": '135.626296',
+        "dropImage": ""
     },
     {
         "id": '002',
         "label": "アンダーパス",
         "lat": '34.85363',
-        "lng": '135.631092'
+        "lng": '135.631092',
+        "dropImage": ""
     },
     {
         "id": '003',
         "label": "アンダーパス",
         "lat": '34.850417',
-        "lng": '135.615535'
+        "lng": '135.615535',
+        "dropImage": ""
     }
 ]
 
@@ -355,7 +358,7 @@ function generateMarker(data, drag, droppable) {
                 infowindow[i] = new google.maps.InfoWindow({
                     content:
                         '<h1 style="font-size: 1.2em">この場所の危険ポイントを選んでください</h1>'
-                        + '<div class="droppable_area">ここにドロップ</div>',
+                        + '<div class="droppable_area" id="'+ data[i].id +'">ここにドロップ</div>',
                 });
                 marker[i].addListener('click', function () {
                     infowindow[i].open(map, marker[i]);
@@ -367,10 +370,15 @@ function generateMarker(data, drag, droppable) {
                         drop: function (e, ui) {
                             //TODO：ドラッグされた画像IDと場所を配列に格納
                             //InfoWindow消しても再表示出来るようにする
-                            console.log(ui.draggable[0].id);
-                            var index = disaster_image.itemIndex('name', ui.draggable[0].id);
-                            console.log(disaster_image[index]);
-                            disaster_image[index].marker.push(i);
+                            
+                            //console.log(ui.draggable[0].id);
+                            //var index = disaster_image.itemIndex('name', ui.draggable[0].id);
+                            //console.log(disaster_image[index]);
+                            //disaster_image[index].marker.push(i);
+                            //hazard_point
+                            console.log(this.id);
+                            var index = hazard_point.itemIndex('id',this.id);
+                            hazard_point[index].dropImage = ui.draggable[0].id;
                         }
                     });
                 })
